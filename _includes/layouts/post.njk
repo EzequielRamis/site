@@ -19,7 +19,7 @@ templateClass: tmpl-post
   "mainEntityOfPage": "{{ metadata.url }}{{ canonicalUrl or page.url }}",
   "datePublished": "{{ page.date | htmlDateString }}",
   "dateModified": "{{ page.inputPath | lastModifiedDate  | htmlDateString }}",
-  "description": "{{ content | striptags | truncate(140) }}"
+  "description": "{{ content | striptags | replace("\\", " ") | truncate(140) }}"
 }
 </script>
 

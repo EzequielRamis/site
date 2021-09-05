@@ -49,6 +49,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginNavigation = require("@11ty/eleventy-navigation");
 const markdownIt = require("markdown-it");
+const mk = require('./js/tex');
 const localImages = require("./third_party/eleventy-plugin-local-images/.eleventy.js");
 
 module.exports = function (eleventyConfig) {
@@ -145,6 +146,7 @@ module.exports = function (eleventyConfig) {
     breaks: true,
     linkify: true,
   });
+  markdownLibrary.use(mk);
   eleventyConfig.setLibrary("md", markdownLibrary);
 
   // Browsersync Overrides

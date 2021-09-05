@@ -44,15 +44,21 @@ const purifyCss = async (rawContent, outputPath) => {
     !isAmp(content) &&
     !/data-style-override/.test(content)
   ) {
-    let before = require("fs").readFileSync("css/main.css", {
+    let mainCss = require("fs").readFileSync("css/main.css", {
       encoding: "utf-8",
     });
 
-    before = before.replace(/@font-face {/g, "@font-face {font-display:swap;");
+    let katexCss = require("fs").readFileSync("css/katex.css", {
+      encoding: "utf-8",
+    });
 
-    const after = csso.minify(before).css;
+    mainCssA = mainCss.replace(/@font-face {/g, "@font-face {font-display:swap;");
+    katexCssA = katexCss.replace(/@font-face {/g, "@font-face {font-display:swap;");
 
-    content = content.replace("</head>", `<style>${after}</style></head>`);
+    const mainCssB = csso.minify(mainCssA).css;
+    const katexCssB = csso.minify(katexCssA).css;
+
+    content = content.replace("</head>", `<style>${mainCssB} ${katexCssB}</style></head>`);
   }
   return content;
 };
