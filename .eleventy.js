@@ -51,6 +51,7 @@ const pluginNavigation = require("@11ty/eleventy-navigation");
 const markdownIt = require("markdown-it");
 const mk = require('./js/tex');
 const localImages = require("./third_party/eleventy-plugin-local-images/.eleventy.js");
+const jsdom = require('jsdom');
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
@@ -124,6 +125,14 @@ module.exports = function (eleventyConfig) {
     }
 
     return array.slice(0, n);
+  });
+
+  eleventyConfig.addFilter('removeTex', function(str) {
+	  const dom = new jsdom.JSDOM(str);
+    let content = dom.window.document.body;
+    const removeElements = (elms) => elms.forEach(el => el.remove());
+    removeElements( content.querySelectorAll('.katex-html'));
+    return content.innerHTML;
   });
 
   eleventyConfig.addPassthroughCopy("img");
