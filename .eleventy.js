@@ -135,6 +135,14 @@ module.exports = function (eleventyConfig) {
     return content.innerHTML;
   });
 
+  eleventyConfig.addFilter('removeAnnotation', function(str) {
+	  const dom = new jsdom.JSDOM(str);
+    let content = dom.window.document.body;
+    const removeElements = (elms) => elms.forEach(el => el.remove());
+    removeElements( content.querySelectorAll('annotation'));
+    return content.innerHTML;
+  });
+
   eleventyConfig.addPassthroughCopy("img");
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("js");
